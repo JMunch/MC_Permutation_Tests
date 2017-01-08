@@ -95,6 +95,9 @@ ggplot(aes(x = test_statistics), data = df) +
 
 # Plot 4: Variance by number of permutations ------------------------------
 
+### Dieser Plot wird wahrscheinlich noch geändert, so dass sie Mittelwerte der 
+### p-Werte mit Konfidenzintervallen gezeigt werden
+
 n <- 100
 
 variances <- sort(1/log(1:n), decreasing = TRUE)
