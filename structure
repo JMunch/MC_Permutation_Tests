@@ -1,0 +1,38 @@
+** TODO **
+
+
+** Theoretischer Hintergrund **
+
+- Paper, mit Anwendung von Permutationstests allgemein (Anwendungsbereiche z.B. Biometrie)
+- Paper, mit Anwendung vom KS Test als Permutationstest
+- Warum ist der p-Wert des normalen KS-Test bei Vergleich zweier empirischer Verteilungen ungültig (Literaturhinweis auf normalen KS Test)
+- Funktionsweise des KS Permutationstest (Anwendung als exakter Test; Hinweis auf Anzahl der Permutationen, die dafür nötig wären, Hinweis auf approximative Eigenschaften)
+
+
+
+** Methodik **
+
+- Beschreibung der Datensimulation
+- Beschreibung des Permutationstests (Parameter etc.)
+- Idee: Überprüfung der Genauigkeit der Teststatistik bei n Permutationen
+
+
+
+** Ergebnisse **
+
+- Plot mit den beiden ecdf mit KS Teststatistik (max. Abstand) für beide ecdf und die
+theoretische cdf
+- Ergebnis des KS Permutationstest mit den simulierten Daten (mit empirischem p-Wert)
+- Verteilungen der Teststatistiken mit unterschiedlichen Permutationszahlen (Plot)
+- Varianz der Teststatistiken bei unterschiedlichen Permutationszahlen (Test, ab wie
+vielen Permutationen die Varianz sich nicht mehr signifikant von Null unterscheidet)
+
+
+
+** Diskussion **
+
+- Praktische Relevanz des Permutationstests anhand der Ergebnisse der Simulation
+- Bedeutung der approximativen "Genauigkeit" (z.B. Rechenzeit vs. Genauigkeit)
+- Anpassung von Verteilungsparametern (z.B. Mittelwert), um die Verteilungen auch bei 
+unterschiedlichen Parametern vergleichen zu können
+- Unterscheidung von "ähnlichen Verteilungen" (z.B. Normalverteilung vs. t-Verteilung)
