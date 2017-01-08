@@ -41,21 +41,6 @@ ggplot(df, aes(x = d, colour = group)) +
 
 
 
-# Plot 1: Approach 2 --------------------------------------------------------------
-
-
-df2 <- data.frame(
-    d = c(d1, d2),
-    e = c(e1, e2),
-    group = gl(2, n)
-)
-
-#ggplot(df2, aes(x = d, y = e, colour = group)) + 
-#    geom_line()
-
-
-
-
 
 # Plot 2: Distributions of p-values by number of permutations ------------------------------------------------------------------
 
