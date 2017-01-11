@@ -114,3 +114,40 @@ ggplot(aes(x = n_perm, y = variances), data = df) +
           panel.grid.minor = element_blank(),
           legend.key = element_rect(colour = "black"), 
           plot.title = element_text(face="bold", hjust = .5))
+
+
+
+
+
+# Plot 4 Version 2 --------------------------------------------------------
+
+n <- 100
+
+means <- runif(n, 0, .2)
+n_perm = seq(from = 10, to = 1000, by = 10)
+lower <- means - rev(seq(from = .01, to = 1, by = .01))
+upper <- means + rev(seq(from = .01, to = 1, by = .01))
+
+df <- data.frame(means = means,
+                 n_perm = n_perm,
+                 lower = lower,
+                 upper = upper)
+
+
+ggplot(aes(x = n_perm, y = means), data = df) + 
+    geom_point() + 
+    geom_errorbar(aes(x = n_perm, ymin = lower, ymax = upper)) +
+    labs(x = "Number of permutations", y = "Mean test statistic") + 
+    ggtitle("Variance reduction by number of permutations") + 
+    theme_bw()  + 
+    theme(panel.grid.major = element_blank(), 
+          panel.grid.minor = element_blank(),
+          legend.key = element_rect(colour = "black"), 
+          plot.title = element_text(face="bold", hjust = .5))
+    
+    
+    
+    
+   
+    
+    
