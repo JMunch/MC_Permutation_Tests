@@ -78,7 +78,8 @@ df <- data.frame(test_statistics = rnorm(n, .2, .05))
 
 ggplot(aes(x = test_statistics), data = df) + 
     geom_histogram(fill = "white", colour = "black", bins = 50) + 
-    geom_histogram(data = subset(df, test_statistics >= observed_value),
+
+      geom_histogram(data = subset(df, test_statistics >= observed_value),
                    colour="black", fill="darkgrey", bins = 50) + 
     geom_vline(aes(xintercept = observed_value, colour = "red"), size = 1) +
     labs(x = "Test statistic", y = "Frequency", colour = "Observed\ntest statistic") + 

@@ -1,6 +1,6 @@
 # Set parameters
 n_data = 1000 # must be even
-n_sim_perm = 100
+n_sim_perm = 100 # 1000
 
 # Simulate the data
 X = rnorm(n = n_data / 2)
@@ -42,16 +42,16 @@ perm_test = function(data, n_perm = 100){
 sim_perm_test = function(n_perm, data){
   p_value_vec = replicate(n= 100, perm_test(data, n_perm = n_perm))
   print(n_perm)
-  return(data.frame(variance = var(p_value_vec), mean_p = mean(p_value_vec)))
+  return(data.frame(variance = var(p_value_vec), mean_p = mean(p_value_vec), lower_ci = quantile(p_value_vec, 0.05), upper_ci = quantile(p_value_vec, 0.95)))
 }
 
 
 # Simulate different number of permutations
-n_perms_to_sim = c(seq(from = 1, to = 9, by  = 1), seq(from = 10, to = 100, by  = 10)) #, 150, 200, 250, 300, 400, 500)
+n_perms_to_sim = c(seq(from = 1, to = 500, by  = 5) #, 150, 200, 250, 300, 400, 500)
 per_sim_mat = matrix(n_perms_to_sim, ncol = 1)
-mean_var_mat = matrix(unlist(lapply(per_sim_mat, FUN = sim_perm_test, data)), ncol = 2, byrow = TRUE)
+mean_var_mat = matrix(unlist(lapply(per_sim_mat, FUN = sim_perm_test, data)), ncol = 4, byrow = TRUE)
 sim_df = data.frame(cbind(per_sim_mat, mean_var_mat))
-names(sim_df) = c("n_perm", "variance", "mean")
+names(sim_df) = c("n_perm", "variance", "mean", "upper_bound", "lower_bound")
 sim_df
 plot(n_perms_to_sim, sim_df$variance)
 plot(n_perms_to_sim, sim_df$mean)
