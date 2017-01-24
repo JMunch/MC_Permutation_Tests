@@ -1,6 +1,8 @@
+# clean workspace
+rm(list = ls())
 # Set parameters
 n_data = 1000 # must be even
-n_sim_perm = 100 # 1000
+n_sim_perm = 1000 # 1000
 
 # Simulate the data
 X = rnorm(n = n_data / 2)
@@ -40,19 +42,105 @@ perm_test = function(data, n_perm = 100){
 
 
 sim_perm_test = function(n_perm, data){
-  p_value_vec = replicate(n= 100, perm_test(data, n_perm = n_perm))
+  p_value_vec = replicate(n= 400, perm_test(data, n_perm = n_perm))
   print(n_perm)
   return(data.frame(variance = var(p_value_vec), mean_p = mean(p_value_vec), lower_ci = quantile(p_value_vec, 0.05), upper_ci = quantile(p_value_vec, 0.95)))
 }
 
 
 # Simulate different number of permutations
-n_perms_to_sim = c(seq(from = 1, to = 500, by  = 5) #, 150, 200, 250, 300, 400, 500)
+start = proc.time()
+n_perms_to_sim = (seq(from = 10, to = 1000, by  = 10)) #, 150, 200, 250, 300, 400, 500)
 per_sim_mat = matrix(n_perms_to_sim, ncol = 1)
 mean_var_mat = matrix(unlist(lapply(per_sim_mat, FUN = sim_perm_test, data)), ncol = 4, byrow = TRUE)
+end = proc.time()
+print(end - start)
+print(start)
+
 sim_df = data.frame(cbind(per_sim_mat, mean_var_mat))
 names(sim_df) = c("n_perm", "variance", "mean", "upper_bound", "lower_bound")
 sim_df
 plot(n_perms_to_sim, sim_df$variance)
 plot(n_perms_to_sim, sim_df$mean)
+
+write.csv(sim_df, file = "R/permutaion_number_sim.csv")
+
+
+# Simulate different sample sizes -----------------------------------------
+
+
+perm_test_sample = function(sample_size = 1000, n_perm = 1000, dist = 'norm'){
+  
+  if(dist == 'norm'){
+  # Simulate the data
+  X = rnorm(n = sample_size / 2, mean = 3, sd = sqrt(3))
+  Y = rnorm(n = sample_size / 2, mean = 3,  sd = sqrt(3))
+  }
+  
+  if(dist == 't'){
+    # Simulate the data
+    X = rnorm(n = sample_size / 2, mean = 3, sd = sqrt(3))
+    Y = rt(n = sample_size / 2, df = 1.5) + 3
+  }
+  
+  if(dist == 'chisq'){
+    # Simulate the data
+    X = rnorm(n = sample_size / 2, mean = 3, sd = sqrt(3))
+    Y = rchisq(n = sample_size / 2, df = 3)
+  }
+  
+  if(dist == 'unif'){
+    # Simulate the data
+    X = rnorm(n = sample_size / 2, mean = 3, sd = sqrt(3))
+    Y = runif(n = sample_size / 2, min = 0, max = 6)
+  }
+  
+  # Simulation function
+  data = as.numeric(c(X, Y))
+  
+  # Compute Kolomogorov Test Statistic
+  D0 = ks.test(data[1:sample_size / 2], data[sample_size / 2 + 1:sample_size])$statistic
+  
+  one_perm = function(data){
+    n_data = length(data)
+    data = sample(x = data, size = n_data)
+    
+    return(ks.test(data[1:n_data / 2], data[n_data / 2 + 1:n_data])$statistic)
+  }
+  
+  # Crate vector with test statistics
+  D = replicate(n = n_perm, one_perm(data))
+  
+  # p-value
+  return(mean(D >= D0)) # Does it make sence to use c() or just take the permutated test statistics
+}
+
+
+# Simulation of different sample size
+sim_sample = function(sample_size, dist){
+  
+  p_value_vec = replicate(n= 100, perm_test_sample(sample_size, n_perm = 100, dist))
+  print(sample_size)
+  return(data.frame(variance = var(p_value_vec), mean_p = mean(p_value_vec), lower_ci = quantile(p_value_vec, 0.05), upper_ci = quantile(p_value_vec, 0.95)))
+}
+
+
+sample_sizes = c(10, 20, 30, 40 , 50, 60, 80, 100, 200, 500, 1000)
+
+sample_sim_mat = matrix(sample_sizes, ncol = 1)
+sample_norm = matrix(unlist(lapply(sample_sizes, FUN = function(x) sim_sample(x, dist = 'norm'))), ncol = 4, byrow = TRUE)
+sample_t = matrix(unlist(lapply(sample_sizes, FUN = function(x) sim_sample(x, dist = 't'))), ncol = 4, byrow = TRUE)
+sample_chisq = matrix(unlist(lapply(sample_sizes, FUN =function(x) sim_sample(x, dist = 'chisq'))), ncol = 4, byrow = TRUE)
+sample_unif = matrix(unlist(lapply(sample_sizes, FUN = function(x) sim_sample(x, dist = 'unif'))), ncol = 4, byrow = TRUE)
+
+df_sample_norm = data.frame(cbind(sample_sim_mat, sample_norm))
+df_sample_t = data.frame(cbind(sample_sim_mat, sample_t))
+df_sample_chisq = data.frame(cbind(sample_sim_mat, sample_chisq))
+df_sample_unif = data.frame(cbind(sample_sim_mat, sample_unif))
+
+names(df_sample_norm) = c("sample_size", "variance", "mean", "upper_bound", "lower_bound")
+names(df_sample_t) = c("sample_size", "variance", "mean", "upper_bound", "lower_bound")
+names(df_sample_chisq) = c("sample_size", "variance", "mean", "upper_bound", "lower_bound")
+names(df_sample_unif) = c("sample_size", "variance", "mean", "upper_bound", "lower_bound")
+
 
