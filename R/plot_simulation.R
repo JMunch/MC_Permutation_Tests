@@ -81,7 +81,7 @@ ggplot(aes(x = test_statistics), data = df) +
   
   geom_histogram(data = subset(df, test_statistics >= observed_value),
                  colour="black", fill="darkgrey", bins = 50) + 
-  geom_vline(aes(xintercept = observed_value, colour = "red"), size = 1) +
+  geom_vline(aes(xintercept = observed_value, colour = " "), size = 1) +
   labs(x = "Test statistic", y = "Frequency", colour = "Observed\ntest statistic") + 
   ggtitle("KS permutation test: Empirical p-value") + 
   theme_bw()  + 
