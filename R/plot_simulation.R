@@ -48,7 +48,7 @@ perm_test_hist = function(data, n_perm = 100){
 }
 
 
-hist_data <- perm_test_hist(values_H0, n_perm = 100000)
+hist_data <- perm_test_hist(values_H0, n_perm = 1000)
 hist_df <- hist_data[[1]]
 hist_teststat <- hist_data[[2]]
 
@@ -132,20 +132,20 @@ grid.arrange(ecd_plots[[1]], ecd_plots[[2]], ecd_plots[[3]], ecd_plots[[4]])
 # Empirical p-value --------------
 
 
-ggplot(aes(x = values), data = hist_df) + 
+emp_pval_plot <- ggplot(aes(x = values), data = hist_df) + 
     geom_histogram(fill = "white", colour = "black", bins = 70) + 
     geom_histogram(data = subset(hist_df, values >= hist_teststat),
                    colour="black", fill="darkgrey", bins = 70) + 
     geom_vline(aes(xintercept = hist_teststat, colour = " "), size = 1) +
     labs(x = "Test statistic", y = "Frequency", colour = "Observed\ntest statistic") + 
-    ggtitle("KS permutation test: Empirical p-value") + 
+    ggtitle("") + 
     theme_bw()  + 
     theme(panel.grid.major = element_blank(), 
           panel.grid.minor = element_blank(),
           legend.key = element_rect(colour = "black"), 
           plot.title = element_text(face="bold", hjust = .5))
 
-
+emp_pval_plot
 
 
 
