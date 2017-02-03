@@ -119,13 +119,13 @@ perm_test_sample = function(sample_size = 1000, n_perm = 1000, dist = 'norm'){
 # Simulation of different sample size
 sim_sample = function(sample_size, dist){
   
-  p_value_vec = replicate(n= 100, perm_test_sample(sample_size, n_perm = 100, dist))
-  print(sample_size)
+  p_value_vec = replicate(n= 300, perm_test_sample(sample_size, n_perm = 400, dist))
+  print(paste(dist, sample_size))
   return(data.frame(variance = var(p_value_vec), mean_p = mean(p_value_vec), lower_ci = quantile(p_value_vec, 0.05), upper_ci = quantile(p_value_vec, 0.95)))
 }
 
 
-sample_sizes = c(10, 20, 30, 40 , 50, 60, 80, 100, 200, 500, 1000)
+sample_sizes = c(seq(10,100,10), seq(120,300, 20), seq(350, 600, 50), seq(700, 1500,100), 1800, 2000, 5000)
 
 sample_sim_mat = matrix(sample_sizes, ncol = 1)
 sample_norm = matrix(unlist(lapply(sample_sizes, FUN = function(x) sim_sample(x, dist = 'norm'))), ncol = 4, byrow = TRUE)
@@ -143,4 +143,11 @@ names(df_sample_t) = c("sample_size", "variance", "mean", "upper_bound", "lower_
 names(df_sample_chisq) = c("sample_size", "variance", "mean", "upper_bound", "lower_bound")
 names(df_sample_unif) = c("sample_size", "variance", "mean", "upper_bound", "lower_bound")
 
+write.csv(df_sample_norm, file = "R/df_sample_norm.csv")
+write.csv(df_sample_t, file = "R/df_sample_t.csv")
+write.csv(df_sample_chisq, file = "R/df_sample_chisq.csv")
+write.csv(df_sample_unif, file = "R/df_sample_unif.csv")
+
+
+# Simulate different sample sizes -----------------------------------------
 
