@@ -158,8 +158,8 @@ norm_p = ggplot(aes(x = sample_size, y = mean), data = df_sample_norm) +
     geom_point(size = 1) + 
     geom_line() +
     geom_ribbon(aes(ymin=lower_bound, ymax=upper_bound), alpha=0.25) +
-    labs(x = "x", y = "f(x)") +  
-    ggtitle("Normal Distribution") + 
+    labs(x = "Sample size", y = "Mean test statistic") +  
+    ggtitle("") + 
     theme_bw()  + 
     theme(panel.grid.major = element_blank(), 
           panel.grid.minor = element_blank(),
@@ -175,8 +175,8 @@ t_p = ggplot(aes(x = sample_size, y = mean), data = df_sample_t) +
     geom_point(size = 1) + 
     geom_line() +
     geom_ribbon(aes(ymin=lower_bound, ymax=upper_bound), alpha=0.25) +
-    labs(x = "x", y = "f(x)") +  
-    ggtitle("t-Distribution") + 
+    labs(x = "Sample size", y = "Mean test statistic") +  
+    ggtitle("") + 
     theme_bw()  + 
     theme(panel.grid.major = element_blank(), 
           panel.grid.minor = element_blank(),
@@ -191,8 +191,8 @@ chi_p = ggplot(aes(x = sample_size, y = mean), data = df_sample_chisq) +
     geom_point(size = 1) + 
     geom_line() +
     geom_ribbon(aes(ymin=lower_bound, ymax=upper_bound), alpha=0.25) +
-    labs(x = "x", y = "f(x)") + 
-    ggtitle("Chi-squared Distribution") + 
+    labs(x = "Sample size", y = "Mean test statistic") + 
+    ggtitle("") + 
     theme_bw()  + 
     theme(panel.grid.major = element_blank(), 
           panel.grid.minor = element_blank(),
@@ -207,8 +207,8 @@ unif_p = ggplot(aes(x = sample_size, y = mean), data = df_sample_unif) +
     geom_point(size = 1) + 
     geom_line() +
     geom_ribbon(aes(ymin=lower_bound, ymax=upper_bound), alpha=0.25) +
-    labs(x = "x", y = "f(x)") + 
-    ggtitle("Uniform Distribution") + 
+    labs(x = "Sample size", y = "Mean test statistic") +
+    ggtitle("") + 
     theme_bw()  + 
     theme(panel.grid.major = element_blank(), 
           panel.grid.minor = element_blank(),
@@ -223,7 +223,7 @@ c("n_perm", "variance", "mean", "upper_bound", "lower_bound")
 
 ggplot(data.frame(x = c(-4, 10)), aes(x = x)) +
     stat_function(fun = pnorm, args = list(mean = 3, sd = sqrt(3))) +
-    labs(x = "x", y = "f(x)") + 
+    labs(x = "x", y = "F(x)") + 
     ggtitle("") + 
     theme_bw()  + 
     theme(panel.grid.major = element_blank(), 
@@ -237,7 +237,7 @@ pt_custom <- function(x) {pt(x -3, 1.5)}
 ggplot(data.frame(x = c(-4, 10)), aes(x = x)) +
     stat_function(fun = pt_custom) +
     stat_function(fun = pnorm, args = list(mean = 3, sd = sqrt(3)))+
-    labs(x = "x", y = "f(c)") + 
+    labs(x = "x", y = "F(x)") + 
     ggtitle("") + 
     theme_bw()  + 
     theme(panel.grid.major = element_blank(), 
@@ -249,8 +249,8 @@ ggplot(data.frame(x = c(-4, 10)), aes(x = x)) +
 ggplot(data.frame(x = c(-4, 10)), aes(x = x)) +
     stat_function(fun = pchisq, args = list(df = 3)) +
     stat_function(fun = pnorm, args = list(mean = 3, sd = sqrt(3)))+
-    labs(x = "Sample size", y = "Mean test statistic") + 
-    ggtitle("Uniform Distribution") + 
+    labs(x = "x", y = "F(x)") +  
+    ggtitle("") + 
     theme_bw()  + 
     theme(panel.grid.major = element_blank(), 
           panel.grid.minor = element_blank(),
@@ -261,7 +261,7 @@ ggplot(data.frame(x = c(-4, 10)), aes(x = x)) +
 ggplot(data.frame(x = c(-4, 10)), aes(x = x)) +
     stat_function(fun = punif, args = list(min = 0, max = 6)) +
     stat_function(fun = pnorm, args = list(mean = 3, sd = sqrt(3)))+
-    labs(x = "Sample size", y = "Mean test statistic") + 
+    labs(x = "x", y = "F(x)") + 
     ggtitle("Uniform Distribution") + 
     theme_bw()  + 
     theme(panel.grid.major = element_blank(), 
@@ -274,7 +274,7 @@ ggplot(data.frame(x = c(-4, 10)), aes(x = x)) +
 
 ggplot(data.frame(x = c(-4, 10)), aes(x = x)) +
     stat_function(fun = dnorm, args = list(mean = 3, sd = sqrt(3))) +
-    labs(x = "Sample size", y = "Mean test statistic") + 
+    labs(x = "x", y = "f(x)") + 
     ggtitle("Uniform Distribution") + 
     theme_bw()  + 
     theme(panel.grid.major = element_blank(), 
@@ -290,8 +290,8 @@ dt_custom <- function(x) {dt(x - 3, 1.5)}
 ggplot(data.frame(x = c(-4, 10)), aes(x = x)) +
     stat_function(fun = dt_custom) +
     stat_function(fun = dnorm, args = list(mean = 3, sd = sqrt(3))) +
-    labs(x = "Sample size", y = "Mean test statistic") + 
-    ggtitle("Uniform Distribution") + 
+    labs(x = "x", y = "f(x)") + 
+    ggtitle("") + 
     theme_bw()  + 
     theme(panel.grid.major = element_blank(), 
           panel.grid.minor = element_blank(),
@@ -302,8 +302,8 @@ ggplot(data.frame(x = c(-4, 10)), aes(x = x)) +
 ggplot(data.frame(x = c(-4, 10)), aes(x = x)) +
     stat_function(fun = dchisq, args = list(df = 3)) +
     stat_function(fun = dnorm, args = list(mean = 3, sd = sqrt(3))) +
-    labs(x = "Sample size", y = "Mean test statistic") + 
-    ggtitle("Uniform Distribution") + 
+    labs(x = "x", y = "f(x)") + 
+    ggtitle("") + 
     theme_bw()  + 
     theme(panel.grid.major = element_blank(), 
           panel.grid.minor = element_blank(),
@@ -314,8 +314,8 @@ ggplot(data.frame(x = c(-4, 10)), aes(x = x)) +
 ggplot(data.frame(x = c(-4, 10)), aes(x = x)) +
     stat_function(fun = dunif, args = list(min = 0, max = 6)) +
     stat_function(fun = dnorm, args = list(mean = 3, sd = sqrt(3))) +
-    labs(x = "Sample size", y = "Mean test statistic") + 
-    ggtitle("Uniform Distribution") + 
+    labs(x = "x", y = "f(x)") + 
+    ggtitle("") + 
     theme_bw()  + 
     theme(panel.grid.major = element_blank(), 
           panel.grid.minor = element_blank(),
