@@ -81,7 +81,7 @@ ggplot(aes(x = test_statistics), data = df) +
   
   geom_histogram(data = subset(df, test_statistics >= observed_value),
                  colour="black", fill="darkgrey", bins = 50) + 
-  geom_vline(aes(xintercept = observed_value, colour = " "), size = 1) +
+  geom_vline(aes(xintercept = observed_value, colour = "red"), size = 1) +
   labs(x = "Test statistic", y = "Frequency", colour = "Observed\ntest statistic") + 
   ggtitle("KS permutation test: Empirical p-value") + 
   theme_bw()  + 
@@ -136,68 +136,58 @@ ggplot(aes(x = n_perm, y = mean), data = sim_df) +
         plot.title = element_text(face="bold", hjust = .5))
 
 
-ggplot(aes(x = n_perm, y = mean), data = sim_df) + 
-    geom_point() + 
-    labs(x = "Number of permutations", y = "Mean test statistic") + 
-    ggtitle("Variance reduction by number of permutations") + 
-    theme_bw()  + 
-    theme(panel.grid.major = element_blank(), 
-          panel.grid.minor = element_blank(),
-          legend.key = element_rect(colour = "black"), 
-          plot.title = element_text(face="bold", hjust = .5)) +
-    geom_ribbon(aes(ymin=lower_bound, ymax=upper_bound), alpha=0.25)
-
-
 # Plot 5 sample size --------------------------------------------------------
 
 
-norm_p = ggplot(aes(x = sample_size, y = mean), data = df_sample_norm) +
-    geom_point() +
-    geom_ribbon(aes(ymin=lower_bound, ymax=upper_bound), alpha=0.25) +
-    labs(x = "Sample size", y = "Mean test statistic") + 
-    ggtitle("Normal Distribution") + 
-    theme_bw()  + 
-    theme(panel.grid.major = element_blank(), 
-          panel.grid.minor = element_blank(),
-          legend.key = element_rect(colour = "black"), 
-          plot.title = element_text(face="bold", hjust = .5))
-  
+
+
+norm_p = ggplot(aes(x = sample_size, y = mean), data = df_sample_norm) + 
+  geom_point() + 
+  geom_errorbar(aes(x = sample_size, ymin = lower_bound, ymax = upper_bound)) +
+  labs(x = "Number of permutations", y = "Mean test statistic") + 
+  ggtitle("Normal-Distribution") + 
+  theme_bw()  + 
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        legend.key = element_rect(colour = "black"), 
+        plot.title = element_text(face="bold", hjust = .5))
 
 t_p = ggplot(aes(x = sample_size, y = mean), data = df_sample_t) + 
-    geom_point() + 
-    geom_ribbon(aes(ymin=lower_bound, ymax=upper_bound), alpha=0.25) +
-    labs(x = "Sample size", y = "Mean test statistic") + 
-    ggtitle("t-Distribution") + 
-    theme_bw()  + 
-    theme(panel.grid.major = element_blank(), 
-          panel.grid.minor = element_blank(),
-          legend.key = element_rect(colour = "black"), 
-          plot.title = element_text(face="bold", hjust = .5))
+  geom_point() + 
+  geom_errorbar(aes(x = sample_size, ymin = lower_bound, ymax = upper_bound)) +
+  labs(x = "Number of permutations", y = "Mean test statistic") + 
+  ggtitle("T-distribution") + 
+  theme_bw()  + 
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        legend.key = element_rect(colour = "black"), 
+        plot.title = element_text(face="bold", hjust = .5))
 
 chi_p = ggplot(aes(x = sample_size, y = mean), data = df_sample_chisq) + 
-    geom_point() + 
-    geom_ribbon(aes(ymin=lower_bound, ymax=upper_bound), alpha=0.25) +
-    labs(x = "Sample size", y = "Mean test statistic") + 
-    ggtitle("Chi-squared Distribution") + 
-    theme_bw()  + 
-    theme(panel.grid.major = element_blank(), 
-          panel.grid.minor = element_blank(),
-          legend.key = element_rect(colour = "black"), 
-          plot.title = element_text(face="bold", hjust = .5))
+  geom_point() + 
+  geom_errorbar(aes(x = sample_size, ymin = lower_bound, ymax = upper_bound)) +
+  labs(x = "Number of permutations", y = "Mean test statistic") + 
+  ggtitle("Chi Squared") + 
+  theme_bw()  + 
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        legend.key = element_rect(colour = "black"), 
+        plot.title = element_text(face="bold", hjust = .5))
 
 unif_p = ggplot(aes(x = sample_size, y = mean), data = df_sample_unif) + 
-    geom_point() + 
-    geom_ribbon(aes(ymin=lower_bound, ymax=upper_bound), alpha=0.25) +
-    labs(x = "Sample size", y = "Mean test statistic") + 
-    ggtitle("Uniform Distribution") + 
-    theme_bw()  + 
-    theme(panel.grid.major = element_blank(), 
-          panel.grid.minor = element_blank(),
-          legend.key = element_rect(colour = "black"), 
-          plot.title = element_text(face="bold", hjust = .5))
+  geom_point() + 
+  geom_errorbar(aes(x = sample_size, ymin = lower_bound, ymax = upper_bound)) +
+  labs(x = "Number of permutations", y = "Mean test statistic") + 
+  ggtitle("Uniform Distribution") + 
+  theme_bw()  + 
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        legend.key = element_rect(colour = "black"), 
+        plot.title = element_text(face="bold", hjust = .5))
 
-grid.arrange(norm_p, t_p, chi_p, unif_p, nrow = 2, main = "KSP test under different sample sizes")
+grid.arrange(norm_p, t_p, chi_p, unif_p, nrow = 2)
 
 
 c("n_perm", "variance", "mean", "upper_bound", "lower_bound")
+
 
