@@ -20,7 +20,7 @@ n_data = 1000 # must be even
 n_sim_perm = 1000 # 1000
 
 # Simulate the data
-set.seed(1910)
+set.seed(1295)
 X = rnorm(n = n_data / 2)
 Y = rnorm(n = n_data / 2)
 
@@ -48,7 +48,7 @@ perm_test_hist = function(data, n_perm = 100){
 }
 
 
-hist_data <- perm_test_hist(values_H0, n_perm = 1000)
+hist_data <- perm_test_hist(values_H0, n_perm = 100000)
 hist_df <- hist_data[[1]]
 hist_teststat <- hist_data[[2]]
 
