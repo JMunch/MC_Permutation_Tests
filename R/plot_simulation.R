@@ -2,6 +2,7 @@
 
 library(ggplot2)
 library(dplyr)
+library(gridExtra)
 
 
 n <- 100
@@ -23,7 +24,7 @@ e2 <- ecd2(d2)
 df <- data.frame(d = c(d1, d2),
                  group = gl(2, n))
 
-max_d <- 4.5
+max_d <- 4
 
 ggplot(df, aes(x = d, colour = group)) + 
   stat_ecdf(geom = "step") + 
@@ -136,11 +137,25 @@ ggplot(aes(x = n_perm, y = mean), data = sim_df) +
         plot.title = element_text(face="bold", hjust = .5))
 
 
+<<<<<<< HEAD
 # Plot 5 sample size --------------------------------------------------------
+=======
+ggplot(aes(x = n_perm, y = mean), data = sim_df) + 
+    geom_line() + 
+    labs(x = "Number of permutations", y = "Mean test statistic") + 
+    ggtitle("Variance reduction by number of permutations") + 
+    theme_bw()  + 
+    theme(panel.grid.major = element_blank(), 
+          panel.grid.minor = element_blank(),
+          legend.key = element_rect(colour = "black"), 
+          plot.title = element_text(face="bold", hjust = .5)) +
+    geom_ribbon(aes(ymin=lower_bound, ymax=upper_bound), alpha=0.25)
+>>>>>>> 9590153ead646df94bed6b6ce552e724f6b6b51f
 
 
 
 
+<<<<<<< HEAD
 norm_p = ggplot(aes(x = sample_size, y = mean), data = df_sample_norm) + 
   geom_point() + 
   geom_errorbar(aes(x = sample_size, ymin = lower_bound, ymax = upper_bound)) +
@@ -151,8 +166,29 @@ norm_p = ggplot(aes(x = sample_size, y = mean), data = df_sample_norm) +
         panel.grid.minor = element_blank(),
         legend.key = element_rect(colour = "black"), 
         plot.title = element_text(face="bold", hjust = .5))
+=======
+df_sample_norm = read.csv("R/df_sample_norm.csv")
+
+norm_p = ggplot(aes(x = sample_size, y = mean), data = df_sample_norm) +
+    geom_point(size = 1) + 
+    geom_line() +
+    geom_ribbon(aes(ymin=lower_bound, ymax=upper_bound), alpha=0.25) +
+    labs(x = "x", y = "f(x)") +  
+    ggtitle("Normal Distribution") + 
+    theme_bw()  + 
+    theme(panel.grid.major = element_blank(), 
+          panel.grid.minor = element_blank(),
+          legend.key = element_rect(colour = "black"), 
+          plot.title = element_text(face="bold", hjust = .5))
+  
+>>>>>>> 9590153ead646df94bed6b6ce552e724f6b6b51f
+
+
+df_sample_t = read.csv("R/df_sample_t.csv")
+
 
 t_p = ggplot(aes(x = sample_size, y = mean), data = df_sample_t) + 
+<<<<<<< HEAD
   geom_point() + 
   geom_errorbar(aes(x = sample_size, ymin = lower_bound, ymax = upper_bound)) +
   labs(x = "Number of permutations", y = "Mean test statistic") + 
@@ -162,8 +198,25 @@ t_p = ggplot(aes(x = sample_size, y = mean), data = df_sample_t) +
         panel.grid.minor = element_blank(),
         legend.key = element_rect(colour = "black"), 
         plot.title = element_text(face="bold", hjust = .5))
+=======
+    geom_point(size = 1) + 
+    geom_line() +
+    geom_ribbon(aes(ymin=lower_bound, ymax=upper_bound), alpha=0.25) +
+    labs(x = "x", y = "f(x)") +  
+    ggtitle("t-Distribution") + 
+    theme_bw()  + 
+    theme(panel.grid.major = element_blank(), 
+          panel.grid.minor = element_blank(),
+          legend.key = element_rect(colour = "black"), 
+          plot.title = element_text(face="bold", hjust = .5))
+>>>>>>> 9590153ead646df94bed6b6ce552e724f6b6b51f
+
+
+df_sample_chisq = read.csv("R/df_sample_chisq.csv")
+
 
 chi_p = ggplot(aes(x = sample_size, y = mean), data = df_sample_chisq) + 
+<<<<<<< HEAD
   geom_point() + 
   geom_errorbar(aes(x = sample_size, ymin = lower_bound, ymax = upper_bound)) +
   labs(x = "Number of permutations", y = "Mean test statistic") + 
@@ -173,8 +226,25 @@ chi_p = ggplot(aes(x = sample_size, y = mean), data = df_sample_chisq) +
         panel.grid.minor = element_blank(),
         legend.key = element_rect(colour = "black"), 
         plot.title = element_text(face="bold", hjust = .5))
+=======
+    geom_point(size = 1) + 
+    geom_line() +
+    geom_ribbon(aes(ymin=lower_bound, ymax=upper_bound), alpha=0.25) +
+    labs(x = "x", y = "f(x)") + 
+    ggtitle("Chi-squared Distribution") + 
+    theme_bw()  + 
+    theme(panel.grid.major = element_blank(), 
+          panel.grid.minor = element_blank(),
+          legend.key = element_rect(colour = "black"), 
+          plot.title = element_text(face="bold", hjust = .5))
+>>>>>>> 9590153ead646df94bed6b6ce552e724f6b6b51f
+
+
+df_sample_unif = read.csv("R/df_sample_unif.csv")
+
 
 unif_p = ggplot(aes(x = sample_size, y = mean), data = df_sample_unif) + 
+<<<<<<< HEAD
   geom_point() + 
   geom_errorbar(aes(x = sample_size, ymin = lower_bound, ymax = upper_bound)) +
   labs(x = "Number of permutations", y = "Mean test statistic") + 
@@ -184,6 +254,18 @@ unif_p = ggplot(aes(x = sample_size, y = mean), data = df_sample_unif) +
         panel.grid.minor = element_blank(),
         legend.key = element_rect(colour = "black"), 
         plot.title = element_text(face="bold", hjust = .5))
+=======
+    geom_point(size = 1) + 
+    geom_line() +
+    geom_ribbon(aes(ymin=lower_bound, ymax=upper_bound), alpha=0.25) +
+    labs(x = "x", y = "f(x)") + 
+    ggtitle("Uniform Distribution") + 
+    theme_bw()  + 
+    theme(panel.grid.major = element_blank(), 
+          panel.grid.minor = element_blank(),
+          legend.key = element_rect(colour = "black"), 
+          plot.title = element_text(face="bold", hjust = .5))
+>>>>>>> 9590153ead646df94bed6b6ce552e724f6b6b51f
 
 grid.arrange(norm_p, t_p, chi_p, unif_p, nrow = 2)
 
@@ -191,3 +273,110 @@ grid.arrange(norm_p, t_p, chi_p, unif_p, nrow = 2)
 c("n_perm", "variance", "mean", "upper_bound", "lower_bound")
 
 
+<<<<<<< HEAD
+=======
+ggplot(data.frame(x = c(-4, 10)), aes(x = x)) +
+    stat_function(fun = pnorm, args = list(mean = 3, sd = sqrt(3))) +
+    labs(x = "x", y = "f(x)") + 
+    ggtitle("") + 
+    theme_bw()  + 
+    theme(panel.grid.major = element_blank(), 
+          panel.grid.minor = element_blank(),
+          legend.key = element_rect(colour = "black"), 
+          plot.title = element_text(face="bold", hjust = .5))
+
+
+pt_custom <- function(x) {pt(x -3, 1.5)}
+
+ggplot(data.frame(x = c(-4, 10)), aes(x = x)) +
+    stat_function(fun = pt_custom) +
+    stat_function(fun = pnorm, args = list(mean = 3, sd = sqrt(3)))+
+    labs(x = "x", y = "f(c)") + 
+    ggtitle("") + 
+    theme_bw()  + 
+    theme(panel.grid.major = element_blank(), 
+          panel.grid.minor = element_blank(),
+          legend.key = element_rect(colour = "black"), 
+          plot.title = element_text(face="bold", hjust = .5))
+
+
+ggplot(data.frame(x = c(-4, 10)), aes(x = x)) +
+    stat_function(fun = pchisq, args = list(df = 3)) +
+    stat_function(fun = pnorm, args = list(mean = 3, sd = sqrt(3)))+
+    labs(x = "Sample size", y = "Mean test statistic") + 
+    ggtitle("Uniform Distribution") + 
+    theme_bw()  + 
+    theme(panel.grid.major = element_blank(), 
+          panel.grid.minor = element_blank(),
+          legend.key = element_rect(colour = "black"), 
+          plot.title = element_text(face="bold", hjust = .5))
+
+
+ggplot(data.frame(x = c(-4, 10)), aes(x = x)) +
+    stat_function(fun = punif, args = list(min = 0, max = 6)) +
+    stat_function(fun = pnorm, args = list(mean = 3, sd = sqrt(3)))+
+    labs(x = "Sample size", y = "Mean test statistic") + 
+    ggtitle("Uniform Distribution") + 
+    theme_bw()  + 
+    theme(panel.grid.major = element_blank(), 
+          panel.grid.minor = element_blank(),
+          legend.key = element_rect(colour = "black"), 
+          plot.title = element_text(face="bold", hjust = .5))
+
+
+
+
+ggplot(data.frame(x = c(-4, 10)), aes(x = x)) +
+    stat_function(fun = dnorm, args = list(mean = 3, sd = sqrt(3))) +
+    labs(x = "Sample size", y = "Mean test statistic") + 
+    ggtitle("Uniform Distribution") + 
+    theme_bw()  + 
+    theme(panel.grid.major = element_blank(), 
+          panel.grid.minor = element_blank(),
+          legend.key = element_rect(colour = "black"), 
+          plot.title = element_text(face="bold", hjust = .5))
+
+
+# Define custom t density function for shift on x-axis
+dt_custom <- function(x) {dt(x - 3, 1.5)}
+
+
+ggplot(data.frame(x = c(-4, 10)), aes(x = x)) +
+    stat_function(fun = dt_custom) +
+    stat_function(fun = dnorm, args = list(mean = 3, sd = sqrt(3))) +
+    labs(x = "Sample size", y = "Mean test statistic") + 
+    ggtitle("Uniform Distribution") + 
+    theme_bw()  + 
+    theme(panel.grid.major = element_blank(), 
+          panel.grid.minor = element_blank(),
+          legend.key = element_rect(colour = "black"), 
+          plot.title = element_text(face="bold", hjust = .5))
+
+
+ggplot(data.frame(x = c(-4, 10)), aes(x = x)) +
+    stat_function(fun = dchisq, args = list(df = 3)) +
+    stat_function(fun = dnorm, args = list(mean = 3, sd = sqrt(3))) +
+    labs(x = "Sample size", y = "Mean test statistic") + 
+    ggtitle("Uniform Distribution") + 
+    theme_bw()  + 
+    theme(panel.grid.major = element_blank(), 
+          panel.grid.minor = element_blank(),
+          legend.key = element_rect(colour = "black"), 
+          plot.title = element_text(face="bold", hjust = .5))
+
+
+ggplot(data.frame(x = c(-4, 10)), aes(x = x)) +
+    stat_function(fun = dunif, args = list(min = 0, max = 6)) +
+    stat_function(fun = dnorm, args = list(mean = 3, sd = sqrt(3))) +
+    labs(x = "Sample size", y = "Mean test statistic") + 
+    ggtitle("Uniform Distribution") + 
+    theme_bw()  + 
+    theme(panel.grid.major = element_blank(), 
+          panel.grid.minor = element_blank(),
+          legend.key = element_rect(colour = "black"), 
+          plot.title = element_text(face="bold", hjust = .5))
+
+
+
+
+>>>>>>> 9590153ead646df94bed6b6ce552e724f6b6b51f
