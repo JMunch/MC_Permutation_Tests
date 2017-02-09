@@ -1,11 +1,12 @@
-### Plots für das Poster ###
+### Plots for permutation tests poster ###
 
 library(ggplot2)
 library(dplyr)
 library(gridExtra)
 
-sim_df = read.csv("r/perm_number_sim.csv")
 
+# load data from simulations
+sim_df = read.csv("r/perm_number_sim.csv")
 
 df_samples <- list(df_sample_norm = read.csv("R/df_sample_norm.csv"),
                    df_sample_t = read.csv("R/df_sample_t.csv"),
@@ -17,7 +18,6 @@ df_samples <- list(df_sample_norm = read.csv("R/df_sample_norm.csv"),
 
 # Set parameters
 n_data = 1000 # must be even
-n_sim_perm = 1000 # 1000
 
 # Simulate the data
 set.seed(113)
@@ -48,20 +48,23 @@ perm_test_hist = function(data, n_perm = 100){
 }
 
 
+# simulate data for histogram (demonstates empirical p-value in KSP test)
 hist_data <- perm_test_hist(values_H0, n_perm = 100000)
+
+# histogram data
 hist_df <- hist_data[[1]]
+
+# extract test statistic
 hist_teststat <- hist_data[[2]]
 
 
-# Adjust pt() and dt() for shifted t-distribution
+# Adjust pt() and dt() for shifted t-distribution (t-distribution that is not 
+# centered around zero)
 pt_custom <- function(x) {pt(x -3, 1.5)}
 dt_custom <- function(x) {dt(x - 3, 1.5)}
 
 
-
-
-# Visualize KS for different distributions --------------------------------
-
+# Visualize KS for different distributions
 
 visualize_ks = function(n = 1000, dist = 'norm', seed = NULL){
     
@@ -103,6 +106,7 @@ visualize_ks = function(n = 1000, dist = 'norm', seed = NULL){
     all_x <- sort(ks_df$x)
     d_position <- all_x[which.max(abs(e1(all_x) - e2(all_x)))]
     
+    ks_df$group <- factor(ks_df$group, levels = unique(ks_df$group))
     
     
     g <- ggplot(ks_df, aes(x = x, colour = group)) + 
@@ -124,16 +128,21 @@ visualize_ks = function(n = 1000, dist = 'norm', seed = NULL){
 }
 
 
+# set distribution vector
 distributions <- c("norm", "t", "chisq", "unif")
+
+# create plot to visualize KS test statistic under different distributions
 ecd_plots <- lapply(distributions, visualize_ks, n = 500, seed = 44)
+
+# arrange plots in a grid
 grid.arrange(ecd_plots[[1]], ecd_plots[[2]], ecd_plots[[3]], ecd_plots[[4]])
 
 
 
+# Empirical p-value
 
-# Empirical p-value --------------
-
-
+# plot histogram of simulated test statistics with originally observed test statistic
+# --> demonstrates empirical p-value
 emp_pval_plot <- ggplot(aes(x = values), data = hist_df) + 
     geom_histogram(fill = "white", colour = "black", bins = 70) + 
     geom_histogram(data = subset(hist_df, values >= hist_teststat),
@@ -152,10 +161,11 @@ emp_pval_plot
 
 
 
-# Plot 4 No. of permutations --------------------------------------------------------
+
+# Plot 4 No. of permutations
 
 
-
+# plot variance reduction of empirical p-values under increasing sample size
 ggplot(aes(x = n_perm, y = mean), data = sim_df) + 
     #geom_point() + 
     geom_line(size = 2) + 
@@ -172,9 +182,11 @@ ggplot(aes(x = n_perm, y = mean), data = sim_df) +
 
 
 
-# Plot 5 sample size --------------------------------------------------------
+
+# Plot 5 sample size
 
 
+# function to visualize impact of increasing sample size in KSP test under different distributions
 visualize_sample_size <- function(data){
     
     p <- ggplot(aes(x = sample_size, y = mean), data = data) +
@@ -195,12 +207,18 @@ visualize_sample_size <- function(data){
     
 }
 
+# apply visualization function on all four data sets
 sample_size_plots <- lapply(df_samples, visualize_sample_size)
 
+#arrange plots in a grid
 grid.arrange(sample_size_plots[[1]], sample_size_plots[[2]], sample_size_plots[[3]], sample_size_plots[[4]], nrow = 2)
 
 
 
+
+# In this section the distribution functions and density functions of the four 
+# distributions are generated. These plots are used on the poster to support the 
+# plots that demonstrate the KS test and the impact of increasing sample size
 
 
 norm_norm_distr <- ggplot(data.frame(x = c(-4, 10)), aes(x = x)) +
