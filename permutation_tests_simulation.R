@@ -124,7 +124,7 @@ perm_test_sample = function(sample_size = 1000, n_perm = 1000, dist = 'norm'){
 sim_sample = function(sample_size, dist){
   
   # Repeat the perm_test_sample 300 times
-  p_value_vec = replicate(n= 300, perm_test_sample(sample_size, n_perm = 400, dist))
+  p_value_vec = replicate(n= 400, perm_test_sample(sample_size, n_perm = 400, dist))
   
   # Compute and return varaince, mean and confidence intervals
   return(data.frame(variance = var(p_value_vec),
